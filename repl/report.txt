@@ -1,0 +1,33 @@
+1. Exploratory Data analysis (explore.py)
+    Operations performed using Pandas (ootb) functionality
+    Observations:
+        There are no observations of traffic before 2015
+        Data missing sporadically up through 2018
+        Huge outliers:
+            December has big sales and bigger traffic
+            May 2018 is low low low on sales and traffic 
+        Lots of data points, but the prediction space squashes them -> data is non linear with respect to time
+    Procedures:
+        Handle missing data:
+            Ignore data before 2015 -> data is not missing at random, it cannot be replaced at random
+            Ignore May 2018 -> the month was not fully present, not missing at random
+            Impute sporadically missing data using mean substitution (in the interest of simplicity)
+        Orient data for time based predictions:
+            Convert date to datetime object -> allows manipulation of different granularities of time
+            Create entries for year and month -> these are the variables we want to consider for making predictions on sales and traffic
+            Group sales and traffic data based on year and month
+        Visualize data (data/sales_fig.png and data/traffic_fig.png)
+        Standardize data -> prevent large number bias, easier to judge performance metrics
+        Create training and test sets -> simple way to establish training and testing consistency
+2. Prepare a simple model (model.py)
+    We are not trying to model change over time, we are trying to approximate sales in a month.
+    Due to the presence of outliers (like December), a linear model is not suitable.
+    Instead, I chose predictions based on the average of sales and traffic in a given month.
+    For example, sales and traffic from May 2015, May 2016 and May 2017 would be averaged together to predict May 2018.
+3. Train the model (train.py)
+4. Evaluate the model (evaluate.py)
+    Given the limited number of observations for months, I used a test set size of 10%
+    Performance metrics 
+        Mean squared error: standard, explainable metric for measuring regressio.
+        MSE on the training set: 0.02184528420474753
+        MSE on the testing set: 0.030117427736108777
